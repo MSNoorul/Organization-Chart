@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ebf0f5;
+}
+.tree-container{
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    z-index: 100;
+    background-color: #ebf0f5;
+}
+.tree {
+    width: 100%;
+    height: auto;
+    display: flex;
+    /* justify-content: center; */
+    white-space: nowrap;
+}
+
+.tree ul {
+    padding-top: 40px;
+    position: relative;
+    transition: .5s;
+    transform-origin: 140px 0px;
+    animation: Scale .2s ease-in-out ;
+}
+@keyframes Scale {
+    0%{
+        scale: 0;
+    }
+    100%{scale: 1;}
+}
+
+.tree li {
+    display: inline-table;
+    list-style-type: none;
+    position: relative;
+    padding: 40px 10px;
+    transition: .5s;
+    overflow-inline: scroll;
+}
+
+.tree li::before,
+.tree li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid #939090;
+    width: 50%;
+    height: 40px;
+}
+
+.tree li::after {
+    right: auto;
+    left: 140px;   /* staticly calculated*/
+    width: 100%;
+    border-top: 1px solid #939090;
+    border-left: 1px solid #939090;
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before {
+    display: none;
+}
+
+.tree li:only-child {
+    padding-top: 0;
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+    border: 0 none;
+}
+
+.tree li:last-child::before {
+    border-right: 1px solid #939090;
+    /* border-radius: 0 5px 0 0;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0; */
+}
+
+/* .tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+} */
+
+.tree ul ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 140px;   /* staticly calculated*/
+    border-left: 1px solid #939090;
+    height: 40px;
+}
+/* alinements */
+.tree  ul > li:first-child {
+    padding-left: 0;
+}
+
+
+
+/* style the box inside contend */
+.tree li .details {
+    border: 1px solid #8aace9;
+    background-color: #fff;
+    padding: 10px;
+    display: inline-grid;
+    grid-template-columns: 60px 200px;
+    border-radius: 5px;
+    text-decoration-line: none;
+    border-radius: 5px;
+    transition: .5s;
+    position: relative;
+    padding-top: 20px;
+}
+
+@keyframes fadeIn {
+    0% {
+      height: 0;
+    }
+    50%{
+        height: 50%;
+    }
+    100% {
+      height: auto;
+    }
+  }
+
+.tree li .details img {
+    width: 50px;
+    height: 80px;
+    margin-bottom: 10px !important;
+    border-radius: 100px;
+}
+
+.tree li .details .text-contend {
+    border-radius: 5px;
+    color: #666;
+    font-size: 10px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    line-height: 25px;
+    font-weight: 500;
+    text-align: left;
+    overflow: hidden;
+}
+.tree li .details .text-contend p:first-child{
+    font-size: 12px;
+    color: #000;
+}
+
+.tree li .details .patch{
+    position: absolute;
+    background-color: rgb(130, 215, 163);
+    color: rgb(2, 74, 2);
+    padding: 0 3px;
+    top: 0;
+    right: 15px;
+    font-size: 10px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.tree li .details .num {
+    border: 1px solid #ccc;
+    padding: 2px;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    border-radius: 50%;
+    color: #000;
+    background-color: rgb(191, 191, 193);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 10;
+    transform: translate(-50%, 50%);
+    padding: 2px;
+    font-family:monospace ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+/*Hover-Section*/
+.tree li .details:hover,
+.tree li .details:hover i,
+.tree li .details:hover,
+.tree li .details:hover+ul li .details,
+.tree li .details:hover  {
+    background: #dde0e4;
+    color: #000;
+}
+
+.tree li .details:hover+ul li::after,
+.tree li .details:hover+ul li::before,
+.tree li .details:hover+ul::before,
+.tree li .details:hover+ul ul::before {
+    border-color: #94a0b4;
+}
