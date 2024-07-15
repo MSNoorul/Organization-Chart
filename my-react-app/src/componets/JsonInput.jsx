@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/ext-error_marker';
 import data from '../data';
 
 const JsonInput = ({ setData }) => {
+  const [error, setError] = useState(null);
+  const [markers, setMarkers] = useState([]);
+
   const handleEditorChange = (value) => {
     try {
       const json = JSON.parse(value);
       setData(json);
+      setError(null);
+      setMarkers([]);
     } catch (e) {
-      console.error("Invalid JSON");
+      const errorLine = getErrorLine(e, value);
+      setError(`Invalid JSON at line ${errorLine}`);
+      setMarkers([
+        {
+          startRow: errorLine - 1,
+          startCol: 0,
+          endRow: errorLine,
+          endCol: 1,
+          className: 'error-marker',
+          type: 'background',
+          inFront: true,
+        },
+      ]);
     }
+  };
+
+  const getErrorLine = (error, value) => {
+    const errorMatch = error.message.match(/at position (\d+)/);
+    if (errorMatch) {
+      const errorPosition = parseInt(errorMatch[1], 10);
+      const lines = value.slice(0, errorPosition).split('\n');
+      return lines.length;
+    }
+    return 1;
   };
 
   return (
@@ -30,11 +58,13 @@ const JsonInput = ({ setData }) => {
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
           enableSnippets: true,
-          showLineNumbers: false,
+          showLineNumbers: true,
           tabSize: 2,
         }}
-        style={{ height: '100%', width: '100%' }}
+        markers={markers}
+        style={{ height: '90%', width: '100%' }}
       />
+      {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
     </div>
   );
 };
